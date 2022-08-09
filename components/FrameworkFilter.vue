@@ -1,15 +1,17 @@
 <template>
-  <div class="border-l-2 mx-2 mb-3 js-filter pl-3 border-black">
+  <div class="border-l-2 mx-2 mb-8 js-filter pl-3 border-black">
     <button
       v-for="{ title, filter, image } in cssFrameworks"
       :key="filter"
       :class="[
-        'text-black font-semibold hover:text-green-500 px-2 py-1 transition-normal menu-button',
+        isChangeable ? '' : 'inactive',
+        cssFilter === filter ? 'shadow-btn-shadow' : '',
+        'inline-flex items-center rounded-lg text-black font-semibold hover:enabled:text-green-500 px-2 py-1 transition-normal ',
       ]"
       @click="$emit('change-css-filter', filter)"
     >
-      <img :src="`images/${image}.svg`" class="inline-block mr-2 w-10 -mb-2" />
-      {{ title }}
+      <img :src="`images/${image}.svg`" class="inline-block mr-2 w-10" />
+      <p class="inline">{{ title }}</p>
     </button>
   </div>
 </template>
@@ -23,6 +25,20 @@ export default {
         return []
       },
     },
+    isChangeable: Boolean,
+    cssFilter: {
+      type: String,
+      default() {
+        return ''
+      },
+    },
   },
 }
 </script>
+
+<style>
+.inactive {
+  pointer-events: none;
+  opacity: 25%;
+}
+</style>

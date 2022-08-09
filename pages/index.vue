@@ -6,6 +6,8 @@
       <Header />
       <FrameworkFilter
         :css-frameworks="css_frameworks"
+        :css-filter="cssFilter"
+        :is-changeable="isFrameworkChangeable"
         @change-css-filter="changeCssFilter"
       />
       <CategoryFilter
@@ -107,6 +109,15 @@ export default {
         .filter((item) => !this.hiddenItemIds.includes(item.id))
         .map((item) => item.image)
     },
+    isFrameworkChangeable() {
+      if (
+        this.itemsDest.filter((item) => !this.hiddenItemIds.includes(item.id))
+          .length > 0
+      )
+        return false
+      return true
+    },
+
     buttons() {
       return [
         { title: 'All', filter: 'js-snippet' },
@@ -183,7 +194,7 @@ export default {
   methods: {
     generateHtml() {
       if (this.list && this.list.length) {
-        this.$download(this.list)
+        this.$download(this.cssFilter, this.list)
       }
     },
     removeItem(itemId) {
